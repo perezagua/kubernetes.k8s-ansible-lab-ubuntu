@@ -1,0 +1,49 @@
+# Copyright 2023 Hewlett-Packard Enterprise Development LP.
+# All rights reserved.
+
+---
+- name: Add Kubernetes repository GPG key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+  tags:
+    - install
+    - install_kubernetes
+
+- name: Add Kubernetes repository
+  apt_repository:
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+    filename: kubernetes
+  tags:
+    - install
+    - install_kubernetes
+
+- name: Update and upgrade apt packages
+  apt:
+    upgrade: yes
+    update_cache: yes
+  tags:
+    - install
+    - install_kubernetes
+
+- name: Install Kubernetes packages
+  apt:
+    name: "{{ item }}={{ k8s_version }}-00"
+    state: present
+    update_cache: yes
+    allow_downgrade: true
+  with_items: "{{ kubernetes_packages }}"
+  tags:
+    - install
+    - install_kubernetes
+
+- name: Configure kubectl autocompletion
+  when: "'kubectl' in kubernetes_packages"
+  lineinfile:
+    dest: ".bashrc"
+    regex: "kubectl completion"
+    line: "source <(kubectl completion bash)"
+  tags:
+    - install
+    - install_kubernetes
