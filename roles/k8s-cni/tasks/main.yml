@@ -12,7 +12,7 @@
 
 - name: Check if NetworkManager is installed
   package_facts:
-    manager: apt
+    manager: auto
   tags:
     - cni
 

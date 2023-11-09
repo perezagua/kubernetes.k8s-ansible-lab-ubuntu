@@ -17,7 +17,7 @@
     repo: "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ os_version }}/ /"
     state: present
     filename: /etc/apt/sources.list.d/devel:kubic:libcontainers:stable
-    mode: '0644'
+    mode: "0644"
   tags:
     - install
     - cri
@@ -27,7 +27,7 @@
     repo: "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ crio_version }}/{{ os_version }}/ /"
     state: present
     filename: /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:{{ crio_version }}
-    mode: '0644'
+    mode: "0644"
   tags:
     - install
     - cri
